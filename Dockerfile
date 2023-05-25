@@ -22,6 +22,11 @@ RUN \
   fi && \
   apt-get update && \
   apt-get install -y --no-install-recommends \
+    gnupg \
+    wget && \
+  wget -qO - https://repositories.intel.com/graphics/intel-graphics.key | gpg --dearmor --output /usr/share/keyrings/intel-graphics.gpg && \
+  echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/graphics/ubuntu jammy arc' | tee /etc/apt/sources.list.d/intel.gpu.jammy.list && \
+  apt-get install -y --no-install-recommends \
     at \
     jellyfin-server=${JELLYFIN_RELEASE} \
     jellyfin-ffmpeg5 \
