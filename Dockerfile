@@ -21,6 +21,7 @@ RUN \
     wget && \
   wget -qO - https://repositories.intel.com/graphics/intel-graphics.key | gpg --dearmor --output /usr/share/keyrings/intel-graphics.gpg && \
   echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/graphics/ubuntu jammy arc' | tee /etc/apt/sources.list.d/intel.gpu.jammy.list && \
+  echo 'deb [arch=amd64,i386 signed-by=/usr/share/keyrings/intel-graphics.gpg] https://repositories.intel.com/graphics/ubuntu jammy arc' | tee /etc/apt/sources.list.d/intel.gpu.jammy.list && \
   curl -s https://repo.jellyfin.org/ubuntu/jellyfin_team.gpg.key | apt-key add - && \
   echo 'deb [arch=amd64] https://repo.jellyfin.org/ubuntu jammy main' > /etc/apt/sources.list.d/jellyfin.list && \
   if [ -z ${JELLYFIN_RELEASE+x} ]; then \
@@ -36,30 +37,12 @@ RUN \
     libfreetype6 \
     libssl3 \
     mesa-va-drivers && \
-    gawk \
-    libc-dev \
-    intel-opencl-icd \
-    intel-level-zero-gpu \
-    level-zero \
-    intel-media-va-driver-non-free \
-    libmfx1 \
-    libmfxgen1 \
-    libvpl2 \
-    libegl-mesa0 \
-    libegl1-mesa \
-    libegl1-mesa-dev \
-    libgbm1 \
-    libgl1-mesa-dev \
-    libgl1-mesa-dri \
-    libglapi-mesa \
-    libgles2-mesa-dev \
-    libglx-mesa0 \
-    libigdgmm12 \
-    libxatracker2 \
-    mesa-va-drivers \
-    mesa-vdpau-drivers \
-    mesa-vulkan-drivers \
-    va-driver-all && \
+    gawk libc6-dev udev\
+    intel-opencl-icd intel-level-zero-gpu level-zero \
+    intel-media-va-driver-non-free libmfx1 libmfxgen1 libvpl2 \
+    libegl-mesa0 libegl1-mesa libegl1-mesa-dev libgbm1 libgl1-mesa-dev libgl1-mesa-dri \
+    libglapi-mesa libgles2-mesa-dev libglx-mesa0 libigdgmm12 libxatracker2 \
+    mesa-vdpau-drivers mesa-vulkan-drivers va-driver-all vainfo && \
   echo "**** cleanup ****" && \
   rm -rf \
     /tmp/* \
